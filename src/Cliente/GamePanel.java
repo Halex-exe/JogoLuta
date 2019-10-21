@@ -1,3 +1,4 @@
+package Cliente;
 
 import java.awt.event.KeyEvent;
 
@@ -16,7 +17,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
     Player player;
     Boolean keyRight = false, keyLeft = false, keyUp = false, keyDown = false, keySpace = false;
     Thread t;
-    Integer speed = 4;
+    Integer speed = 7;
 
     /**
      * Creates new form GamePanel
@@ -58,18 +59,23 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
                 keyRight = true;
+                player.enviarMensagem("r");
                 break;
             case KeyEvent.VK_LEFT:
                 keyLeft = true;
+                player.enviarMensagem("l");
                 break;
             case KeyEvent.VK_UP:
                 keyUp = true;
+                player.enviarMensagem("u");
                 break;
             case KeyEvent.VK_DOWN:
                 keyDown = true;
+                player.enviarMensagem("d");
                 break;
             case KeyEvent.VK_SPACE:
                 keySpace = true;
+                player.enviarMensagem("s");
                 break;
         }
 
@@ -145,48 +151,12 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         });
     }
 
-    public void updateGame() {
-        if (keyRight) {
-            if (player.x <= 706) {
-                player.setIconRight();
-                player.x += speed;
-            }
-        }
-
-        if (keyLeft) {
-            if (player.x >= 0) {
-                player.setIconLeft();
-                player.x -= speed;
-            }
-        }
-
-        if (keyUp) {
-            if (player.y >= 0) {
-                player.y -= speed;
-            }
-        }
-
-        if (keyDown) {
-            if (player.y <= 450) {
-                player.y += speed;
-            }
-        }
-        if (keySpace) {
-            player.setIconSpace();
-        }
-
-        if(!(keyDown||keyUp||keyLeft||keyRight||keySpace)){
-            player.setIconStopped();
-        }
-        player.move();
-    }
-
     @Override
     public void run() {
         while (true) {
             try {
-                updateGame();
-                Thread.sleep(20);
+                player.setIconRight();
+                player.receberMensagens();
             } catch (Exception e) {
                 e.printStackTrace();
             }
