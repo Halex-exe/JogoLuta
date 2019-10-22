@@ -60,10 +60,12 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
             case KeyEvent.VK_RIGHT:
                 keyRight = true;
                 player.enviarMensagem("r");
+                player.setIconRight();
                 break;
             case KeyEvent.VK_LEFT:
                 keyLeft = true;
                 player.enviarMensagem("l");
+                player.setIconLeft();
                 break;
             case KeyEvent.VK_UP:
                 keyUp = true;
@@ -76,6 +78,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
             case KeyEvent.VK_SPACE:
                 keySpace = true;
                 player.enviarMensagem("s");
+                player.setIconSpace();
                 break;
         }
 
@@ -86,18 +89,23 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
                 keyRight = false;
+                player.setIconStopped();
                 break;
             case KeyEvent.VK_LEFT:
                 keyLeft = false;
+                player.setIconStopped();
                 break;
             case KeyEvent.VK_UP:
                 keyUp = false;
+                player.setIconStopped();
                 break;
             case KeyEvent.VK_DOWN:
                 keyDown = false;
+                player.setIconStopped();
                 break;
             case KeyEvent.VK_SPACE:
                 keySpace = false;
+                player.setIconStopped();
                 break;
         }
     }//GEN-LAST:event_formKeyReleased
@@ -155,7 +163,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
     public void run() {
         while (true) {
             try {
-                player.setIconRight();
+                player.setIconStopped();
                 player.receberMensagens();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -64,7 +64,7 @@ public class Jogador implements Runnable {
                     } else {
 
                         if (msg.equals("d")) {
-                            if (y <= 450) {
+                            if (y <= 445) {
                                 y += speed;
                                 msg = null;
                             }
@@ -80,9 +80,9 @@ public class Jogador implements Runnable {
 
         }
 
-        if ((msg != "r" || msg != "l" || msg != "u" || msg != "d" || msg != "s")) { //ver depois.
-            //Jogador.setIconStopped();
-        }
+//        if ((msg != "r" || msg != "l" || msg != "u" || msg != "d" || msg != "s")) { //ver depois.
+//            //Jogador.setIconStopped();
+//        }
         atualizadClientes(); // enviar para o cliente as novas coordenadas
     }
 

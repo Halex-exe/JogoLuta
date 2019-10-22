@@ -23,8 +23,9 @@ public class MultiJogador {
     public void aguardarClientes() {
         try {
             while (true) {
-                System.out.println("Started");
+                System.out.println("Servidor Iniciado!");
                 socketNovoJogador = ss.accept();
+                System.out.println("Cliente conectado: " + ss.toString());
                 Jogador novoCliente = new Jogador(socketNovoJogador);
                 jogador.add(novoCliente);
             }

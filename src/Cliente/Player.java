@@ -14,10 +14,9 @@ import java.net.Socket;
  */
 
 /**
- *
  * @author gabriel
  */
-public class Player extends JLabel{
+public class Player extends JLabel {
     public int x = 0, y = 0, vida = 100;
     ImageIcon walkL;
     ImageIcon walkR;
@@ -36,8 +35,7 @@ public class Player extends JLabel{
     PrintWriter out;
 
 
-
-    public void setup(){
+    public void setup() {
         setText("12");
         walkR = new ImageIcon(
                 new ImageIcon(getClass()
@@ -69,39 +67,38 @@ public class Player extends JLabel{
                         .getResource("p_d.gif"))
                         .getImage()
                         .getScaledInstance(88, 127, Image.SCALE_DEFAULT));
-        setBounds(x, y, 90, 127); //pegar do servidor
+        setBounds(x, y, 90, 127);
 
         configurarCliente();
-        //setIcon(walkR);
     }
-    
-    public void move(){
+
+    public void move() {
         setBounds(x, y, 90, 127);
     }
-    
-    public void setIconRight(){
+
+    public void setIconRight() {
         setIcon(walkR);
         this.UltimaIMG = walkR;
     }
-    
-    public void setIconLeft(){
+
+    public void setIconLeft() {
         setIcon(walkL);
         this.UltimaIMG = walkL;
     }
 
-    public void setIconSpace(){
-        if (UltimaIMG == walkR){
+    public void setIconSpace() {
+        if (UltimaIMG == walkR) {
             setIcon(attack);
-        }else{
+        } else {
             setIcon(attackL);
         }
 
     }
 
-    public void setIconStopped(){
+    public void setIconStopped() {
         if (this.UltimaIMG == walkR) {
             setIcon(stopped);
-        }else{
+        } else {
             setIcon(stoppedL);
         }
 
@@ -109,7 +106,7 @@ public class Player extends JLabel{
 
 
     ///
-    public void configurarCliente(){
+    public void configurarCliente() {
         try {
             s = new Socket(host, porta);
             in = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -122,10 +119,11 @@ public class Player extends JLabel{
     }
 
 
-    public void receberMensagens(){ //(transformr em Thread)
+    public void receberMensagens() { //(transformr em Thread)
         try {
             String msg;
-            while((msg = in.readLine()) != null){
+            while ((msg = in.readLine()) != null) {
+                int posicao = 0;
                 //txtSaida.append(msg);
                 //txtSaida.append("\n");
                 System.out.println(msg);
@@ -140,7 +138,7 @@ public class Player extends JLabel{
         }
     }
 
-    public void enviarMensagem(String msg){ //mexer
+    public void enviarMensagem(String msg) { //mexer
         out.println(msg);
         out.flush();
         //System.out.println(msg);
