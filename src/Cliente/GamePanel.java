@@ -1,6 +1,10 @@
 package Cliente;
 
+import Server.Jogador;
+
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,6 +19,9 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends javax.swing.JFrame implements Runnable {
 
     Player player;
+    //Player player2; //
+    static List<Player> players = new ArrayList<>();
+
     Boolean keyRight = false, keyLeft = false, keyUp = false, keyDown = false, keySpace = false;
     Thread t;
     Integer speed = 7;
@@ -110,10 +117,12 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         }
     }//GEN-LAST:event_formKeyReleased
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened   //////
         // TODO add your handling code here:
         player = new Player();
-        player.setup();
+        player.setup(); //configura o player.
+        players.add(player); //
+
         getContentPane().add(player);
         repaint();
         t = new Thread(this);

@@ -20,7 +20,7 @@ public class MultiJogador {
         }
     }
 
-    public void aguardarClientes() {
+    public void aguardarClientes() { //pegar o codigo do conectado. e instanciar na tela
         try {
             while (true) {
                 System.out.println("Servidor Iniciado!");
@@ -32,6 +32,5 @@ public class MultiJogador {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

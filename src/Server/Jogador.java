@@ -87,7 +87,18 @@ public class Jogador implements Runnable {
     }
 
     public void enviarMensagem() {
-        dados = x + ":" + y + ":" + vida;
+        //dados = x + ":" + y + ":" + vida;
+        if (MultiJogador.jogador.size() >= 2){
+            Jogador jogador1 = MultiJogador.jogador.get(0);
+            dados = jogador1.x + ":" + jogador1.y + ":" + jogador1.vida;
+            String dados2;
+            Jogador jogador2 = MultiJogador.jogador.get(1);
+            dados2 = jogador2.x + ":" + jogador2.y + ":" + jogador2.vida;
+            dados = dados + "-" + dados2;
+        }else{
+            Jogador jogador = MultiJogador.jogador.get(0);
+            dados = jogador.x + ":" + jogador.y + ":" + jogador.vida;
+        }
         //System.out.println(dados);
         saida.println(dados);
         saida.flush();

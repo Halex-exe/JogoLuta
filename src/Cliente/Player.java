@@ -119,19 +119,27 @@ public class Player extends JLabel {
     }
 
 
-    public void receberMensagens() { //(transformr em Thread)
+    public void receberMensagens() { //(transformar em Thread)
         try {
             String msg;
             while ((msg = in.readLine()) != null) {
-                int posicao = 0;
-                //txtSaida.append(msg);
-                //txtSaida.append("\n");
                 System.out.println(msg);
-                String[] separado = msg.split(":");
-                x = Integer.parseInt(separado[0]);
-                y = Integer.parseInt(separado[1]);
-                vida = Integer.parseInt(separado[2]);
-                move();
+
+                if (msg.indexOf('-') >= 0) {
+                    String[] string = msg.split("-");
+                    String[] jogadorA = string[0].split(":");
+                    String[] jogadorB = string[1].split(":");
+                    x = Integer.parseInt(jogadorB[0]);
+                    y = Integer.parseInt(jogadorB[1]);
+                    vida = Integer.parseInt(jogadorB[2]);
+                    move();
+                } else {
+                    String[] separado = msg.split(":");
+                    x = Integer.parseInt(separado[0]);
+                    y = Integer.parseInt(separado[1]);
+                    vida = Integer.parseInt(separado[2]);
+                    move();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,6 +151,4 @@ public class Player extends JLabel {
         out.flush();
         //System.out.println(msg);
     }
-
-
 }
