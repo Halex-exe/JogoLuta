@@ -121,8 +121,40 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
                                 String[] jogadorA = string[0].split(":");
                                 String[] jogadorB = string[1].split(":");
 
+                                int controleAx, controleBx;
+                                controleAx = players.get(0).x;
+                                controleBx = players.get(1).x;
+
+                                if (controleAx > Integer.parseInt(jogadorA[0])){
+                                    players.get(0).setIconLeft();
+                                }else{
+                                    if (controleAx < Integer.parseInt(jogadorA[0])){
+                                        players.get(0).setIconRight();
+                                    }else{
+                                        if (controleAx == Integer.parseInt(jogadorA[0])){
+                                            players.get(0).setIconStopped();
+                                        }
+                                    }
+                                }
                                 players.get(0).setBounds(Integer.parseInt(jogadorA[0]), (Integer.parseInt(jogadorA[1])), 90, 127);
+                                players.get(0).x = Integer.parseInt(jogadorA[0]);
+                                players.get(0).y = Integer.parseInt(jogadorA[1]);
+
+
+                                if (controleBx > Integer.parseInt(jogadorB[0])){
+                                    players.get(1).setIconLeft();
+                                }else{
+                                    if (controleBx < Integer.parseInt(jogadorB[0])){
+                                        players.get(1).setIconRight();
+                                    }else{
+                                        if (controleBx == Integer.parseInt(jogadorB[0])){
+                                            players.get(1).setIconStopped();
+                                        }
+                                    }
+                                }
                                 players.get(1).setBounds(Integer.parseInt(jogadorB[0]), (Integer.parseInt(jogadorB[1])), 90, 127);
+                                players.get(1).x = Integer.parseInt(jogadorB[0]);
+                                players.get(1).y = Integer.parseInt(jogadorB[1]);
 
                             } else {
                                 if (GamePanel.players.size() == 1) {
@@ -131,7 +163,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
                                     getContentPane().add(player);
                                     repaint();
                                     player.setIconStopped();
-                                    players.add(player); //
+                                    players.add(player);
 
                                 } else {
                                     if (GamePanel.players.size() == 0) {
@@ -141,7 +173,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
                                         getContentPane().add(player);
                                         repaint();
                                         player.setIconStopped();
-                                        players.add(player); //
+                                        players.add(player);
                                     }
                                 }
                             }

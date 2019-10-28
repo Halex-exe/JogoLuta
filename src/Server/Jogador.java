@@ -151,7 +151,7 @@ public class Jogador implements Runnable {
         while (true) {
             try {
                 updateGame();
-                Thread.sleep(20);
+                Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
