@@ -10,8 +10,9 @@ import java.util.List;
 
 public class Jogador implements Runnable {
 
-    public int x = 0, y = 0;
+    public int x = 0, y = 0, soco = 0;
     public int vida = 100;
+
     public String msg;
     public String dados;
 
@@ -60,38 +61,39 @@ public class Jogador implements Runnable {
 
     public void updateGame() {
 
-        if (msg != null) {
+        if (this.msg != null) {
 
-            if (msg.equals("r")) {
-                if (x < 705) {
-                    x += speed;
-                    msg = null;
+            if (this.msg.equals("r")) {
+                if (this.x < 705) {
+                    this.x += speed;
+                    this.msg = null;
                 }
             } else {
 
-                if (msg.equals("l")) {
-                    if (x > 0) {
-                        x -= speed;
-                        msg = null;
+                if (this.msg.equals("l")) {
+                    if (this.x > 0) {
+                        this.x -= speed;
+                        this.msg = null;
                     }
                 } else {
 
-                    if (msg.equals("u")) {
-                        if (y > 0) {
-                            y -= speed;
-                            msg = null;
+                    if (this.msg.equals("u")) {
+                        if (this.y > 0) {
+                            this.y -= speed;
+                            this.msg = null;
                         }
                     } else {
 
-                        if (msg.equals("d")) {
-                            if (y <= 445) {
-                                y += speed;
-                                msg = null;
+                        if (this.msg.equals("d")) {
+                            if (this.y <= 445) {
+                                this.y += speed;
+                                this.msg = null;
                             }
                         } else {
-                            if (msg == "s") {
+                            if (msg.equals("s")) {
                                 //Jogador.setIconSpace(); //troca para soco.
-                                msg = null;
+                                this.soco = 1;
+                                this.msg = null;
                             }
                         }
                     }
@@ -99,29 +101,43 @@ public class Jogador implements Runnable {
             }
 
         }
-
-//        if ((msg != "r" || msg != "l" || msg != "u" || msg != "d" || msg != "s")) { //ver depois.
-//            //Jogador.setIconStopped();
-//        }
-        atualizadClientes(); // enviar para o cliente as novas coordenadas
+        this.atualizadClientes(); // enviar para o cliente as novas coordenadas
     }
 
     public void enviarMensagem() {
         //dados = x + ":" + y + ":" + vida;
-        if (MultiJogador.jogador.size() >= 2){
+        if (MultiJogador.jogador.size() >= 2) {
             Jogador jogador1 = MultiJogador.jogador.get(0);
-            dados = jogador1.x + ":" + jogador1.y + ":" + jogador1.vida;
+            if (jogador1.soco == 1) {
+                dados = jogador1.x + ":" + jogador1.y + ":" + jogador1.vida + ":" + jogador1.soco;
+                soco = 0;
+            } else {
+                dados = jogador1.x + ":" + jogador1.y + ":" + jogador1.vida + ":" + jogador1.soco;
+            }
             String dados2;
+
             Jogador jogador2 = MultiJogador.jogador.get(1);
-            dados2 = jogador2.x + ":" + jogador2.y + ":" + jogador2.vida;
+            if (jogador2.soco == 1) {
+                dados2 = jogador2.x + ":" + jogador2.y + ":" + jogador2.vida + ":" + jogador2.soco;
+                soco = 0;
+            } else {
+                dados2 = jogador2.x + ":" + jogador2.y + ":" + jogador2.vida + ":" + jogador2.soco;
+            }
+
             dados = dados + "-" + dados2;
-        }else{
+        } else { // 1 Player
             Jogador jogador = MultiJogador.jogador.get(0);
-            dados = jogador.x + ":" + jogador.y + ":" + jogador.vida;
+            if (soco == 1) {
+                dados = jogador.x + ":" + jogador.y + ":" + jogador.vida + ":" + jogador.soco;
+                soco = 0;
+            } else {
+                dados = jogador.x + ":" + jogador.y + ":" + jogador.vida + ":" + jogador.soco;
+            }
         }
         //System.out.println(dados);
         saida.println(dados);
         saida.flush();
+
     }
 
     public void atualizadClientes() {
@@ -151,11 +167,10 @@ public class Jogador implements Runnable {
         while (true) {
             try {
                 updateGame();
-                Thread.sleep(10);
+                Thread.sleep(20);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
 }

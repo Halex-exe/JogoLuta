@@ -95,7 +95,6 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
             case KeyEvent.VK_SPACE:
                 keySpace = true;
                 enviarMensagem("s");
-                //player.setIconSpace();
                 break;
         }
 
@@ -125,14 +124,21 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
                                 controleAx = players.get(0).x;
                                 controleBx = players.get(1).x;
 
-                                if (controleAx > Integer.parseInt(jogadorA[0])){
+                                if (controleAx > Integer.parseInt(jogadorA[0])) {
                                     players.get(0).setIconLeft();
-                                }else{
-                                    if (controleAx < Integer.parseInt(jogadorA[0])){
+                                    Thread.sleep(80);
+                                } else {
+                                    if (controleAx < Integer.parseInt(jogadorA[0])) {
                                         players.get(0).setIconRight();
-                                    }else{
-                                        if (controleAx == Integer.parseInt(jogadorA[0])){
-                                            players.get(0).setIconStopped();
+                                        Thread.sleep(80);
+                                    } else {
+                                        if (controleAx == Integer.parseInt(jogadorA[0])) {
+                                            if (Integer.parseInt(jogadorA[3]) == 1) {
+                                                players.get(0).setIconSpace();
+                                                Thread.sleep(80);
+                                            } else {
+                                                players.get(0).setIconStopped();
+                                            }
                                         }
                                     }
                                 }
@@ -141,14 +147,21 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
                                 players.get(0).y = Integer.parseInt(jogadorA[1]);
 
 
-                                if (controleBx > Integer.parseInt(jogadorB[0])){
+                                if (controleBx > Integer.parseInt(jogadorB[0])) {
                                     players.get(1).setIconLeft();
-                                }else{
-                                    if (controleBx < Integer.parseInt(jogadorB[0])){
+                                    Thread.sleep(80);
+                                } else {
+                                    if (controleBx < Integer.parseInt(jogadorB[0])) {
                                         players.get(1).setIconRight();
-                                    }else{
-                                        if (controleBx == Integer.parseInt(jogadorB[0])){
-                                            players.get(1).setIconStopped();
+                                        Thread.sleep(80);
+                                    } else {
+                                        if (controleBx == Integer.parseInt(jogadorB[0])) {
+                                            if (Integer.parseInt(jogadorB[3]) == 1) {
+                                                players.get(1).setIconSpace();
+                                                Thread.sleep(80);
+                                            } else {
+                                                players.get(1).setIconStopped();
+                                            }
                                         }
                                     }
                                 }
