@@ -19,10 +19,9 @@ import java.util.List;
 /**
  * @author gabriel
  */
-public class GamePanel extends javax.swing.JFrame implements Runnable {
+public class GamePanel extends javax.swing.JFrame{
 
     Player player;
-    //Player player2; //
     static List<Player> players = new ArrayList<>();
 
     String host = "127.0.0.1";
@@ -292,19 +291,6 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
             }
         });
     }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

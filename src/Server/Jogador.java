@@ -92,6 +92,7 @@ public class Jogador implements Runnable {
                         } else {
                             if (msg.equals("s")) {
                                 //Jogador.setIconSpace(); //troca para soco.
+                                //
                                 this.soco = 1;
                                 this.msg = null;
                             }
@@ -103,6 +104,7 @@ public class Jogador implements Runnable {
         }
         this.atualizadClientes(); // enviar para o cliente as novas coordenadas
     }
+
 
     public void enviarMensagem() {
         //dados = x + ":" + y + ":" + vida;
@@ -129,7 +131,7 @@ public class Jogador implements Runnable {
             Jogador jogador = MultiJogador.jogador.get(0);
             if (soco == 1) {
                 dados = jogador.x + ":" + jogador.y + ":" + jogador.vida + ":" + jogador.soco;
-                jogador.soco = 0;
+                //jogador.soco = 0;
             } else {
                 dados = jogador.x + ":" + jogador.y + ":" + jogador.vida + ":" + jogador.soco;
             }
