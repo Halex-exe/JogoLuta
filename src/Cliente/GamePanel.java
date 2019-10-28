@@ -176,23 +176,23 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
                 keyRight = false;
-                player.setIconStopped();
+                //player.setIconStopped();
                 break;
             case KeyEvent.VK_LEFT:
                 keyLeft = false;
-                player.setIconStopped();
+                //player.setIconStopped();
                 break;
             case KeyEvent.VK_UP:
                 keyUp = false;
-                player.setIconStopped();
+                //player.setIconStopped();
                 break;
             case KeyEvent.VK_DOWN:
                 keyDown = false;
-                player.setIconStopped();
+                //player.setIconStopped();
                 break;
             case KeyEvent.VK_SPACE:
                 keySpace = false;
-                player.setIconStopped();
+                //player.setIconStopped();
                 break;
         }
     }//GEN-LAST:event_formKeyReleased

@@ -27,7 +27,7 @@ public class MultiJogador {
                 socketNovoJogador = ss.accept();
                 System.out.println("Cliente conectado: " + ss.toString());
                 if (jogador.size() >= 1){
-                    Jogador novoCliente = new Jogador(socketNovoJogador, 700);
+                    Jogador novoCliente = new Jogador(socketNovoJogador, 706);
                     jogador.add(novoCliente);
 
                 }else{
