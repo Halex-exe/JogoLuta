@@ -28,12 +28,6 @@ public class Player extends JLabel {
     ImageIcon attackL = null;
     ImageIcon UltimaIMG = null;
 
-    String host = "127.0.0.1";
-    int porta = 8020;
-    Socket s;
-    BufferedReader in;
-    PrintWriter out;
-
 
     public void setup() {
         setText("12");
@@ -68,12 +62,6 @@ public class Player extends JLabel {
                         .getImage()
                         .getScaledInstance(88, 127, Image.SCALE_DEFAULT));
         setBounds(x, y, 90, 127);
-
-        configurarCliente();
-    }
-
-    public void move() {
-        setBounds(x, y, 90, 127);
     }
 
     public void setIconRight() {
@@ -102,53 +90,5 @@ public class Player extends JLabel {
             setIcon(stoppedL);
         }
 
-    }
-
-
-    ///
-    public void configurarCliente() {
-        try {
-            s = new Socket(host, porta);
-            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            out = new PrintWriter(s.getOutputStream());
-            //receberMensagens();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    public void receberMensagens() { //(transformar em Thread)
-        try {
-            String msg;
-            while ((msg = in.readLine()) != null) {
-                System.out.println(msg);
-
-                if (msg.indexOf('-') >= 0) {
-                    String[] string = msg.split("-");
-                    String[] jogadorA = string[0].split(":");
-                    String[] jogadorB = string[1].split(":");
-                    x = Integer.parseInt(jogadorB[0]);
-                    y = Integer.parseInt(jogadorB[1]);
-                    vida = Integer.parseInt(jogadorB[2]);
-                    move();
-                } else {
-                    String[] separado = msg.split(":");
-                    x = Integer.parseInt(separado[0]);
-                    y = Integer.parseInt(separado[1]);
-                    vida = Integer.parseInt(separado[2]);
-                    move();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void enviarMensagem(String msg) { //mexer
-        out.println(msg);
-        out.flush();
-        //System.out.println(msg);
     }
 }

@@ -25,12 +25,32 @@ public class Jogador implements Runnable {
         configurarJogador(s);
     }
 
+    public Jogador(Socket s, int x) {
+        configurarJogador(s, x);
+    }
+
+
     public void configurarJogador(Socket s) {
         this.s = s;
         try {
             entrada = new BufferedReader(
                     new InputStreamReader(s.getInputStream()));
             saida = new PrintWriter(s.getOutputStream());
+            thRecebeMsg = new Thread(this);
+            thRecebeMsg.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void configurarJogador(Socket s, int x) {
+        this.s = s;
+        try {
+            entrada = new BufferedReader(
+                    new InputStreamReader(s.getInputStream()));
+            saida = new PrintWriter(s.getOutputStream());
+            this.x = x;
             thRecebeMsg = new Thread(this);
             thRecebeMsg.start();
         } catch (Exception e) {

@@ -3,6 +3,10 @@ package Cliente;
 import Server.Jogador;
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +17,6 @@ import java.util.List;
  */
 
 /**
- *
  * @author gabriel
  */
 public class GamePanel extends javax.swing.JFrame implements Runnable {
@@ -21,6 +24,13 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
     Player player;
     //Player player2; //
     static List<Player> players = new ArrayList<>();
+
+    String host = "127.0.0.1";
+    int porta = 8020;
+
+    Socket s;
+    BufferedReader in;
+    PrintWriter out;
 
     Boolean keyRight = false, keyLeft = false, keyUp = false, keyDown = false, keySpace = false;
     Thread t;
@@ -52,6 +62,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
             public void keyPressed(KeyEvent evt) {
                 formKeyPressed(evt);
             }
+
             public void keyReleased(KeyEvent evt) {
                 formKeyReleased(evt);
             }
@@ -66,30 +77,99 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
                 keyRight = true;
-                player.enviarMensagem("r");
-                player.setIconRight();
+                enviarMensagem("r");
+                //player.setIconRight();
                 break;
             case KeyEvent.VK_LEFT:
                 keyLeft = true;
-                player.enviarMensagem("l");
-                player.setIconLeft();
+                enviarMensagem("l");
+                //player.setIconLeft();
                 break;
             case KeyEvent.VK_UP:
                 keyUp = true;
-                player.enviarMensagem("u");
+                enviarMensagem("u");
                 break;
             case KeyEvent.VK_DOWN:
                 keyDown = true;
-                player.enviarMensagem("d");
+                enviarMensagem("d");
                 break;
             case KeyEvent.VK_SPACE:
                 keySpace = true;
-                player.enviarMensagem("s");
-                player.setIconSpace();
+                enviarMensagem("s");
+                //player.setIconSpace();
                 break;
         }
 
     }//GEN-LAST:event_formKeyPressed
+
+
+    public void enviarMensagem(String msg) { //mexer //talvez deixar como thread!
+        out.println(msg);
+        out.flush();
+        //System.out.println(msg);
+    }
+
+    public void receberMensagens() { //(transformar em Thread)
+        new Thread(() -> {
+            try {
+                try {
+                    String msg;
+                    while ((msg = in.readLine()) != null) {
+                        System.out.println(msg);
+                        if (msg.indexOf('-') >= 0) {
+                            if (GamePanel.players.size() >= 2) {
+                                String[] string = msg.split("-");
+                                String[] jogadorA = string[0].split(":");
+                                String[] jogadorB = string[1].split(":");
+
+                                players.get(0).setBounds(Integer.parseInt(jogadorA[0]), (Integer.parseInt(jogadorA[1])), 90, 127);
+                                players.get(1).setBounds(Integer.parseInt(jogadorB[0]), (Integer.parseInt(jogadorB[1])), 90, 127);
+
+                            } else {
+                                if (GamePanel.players.size() == 1) {
+                                    player = new Player();
+                                    player.setup(); //configura o player.
+                                    getContentPane().add(player);
+                                    repaint();
+                                    player.setIconStopped();
+                                    players.add(player); //
+
+                                } else {
+                                    if (GamePanel.players.size() == 0) {
+
+                                        player = new Player();
+                                        player.setup(); //configura o player.
+                                        getContentPane().add(player);
+                                        repaint();
+                                        player.setIconStopped();
+                                        players.add(player); //
+                                    }
+                                }
+                            }
+                        } else {
+                            if (GamePanel.players.size() == 0) {
+
+                                player = new Player();
+                                player.setup(); //configura o player.
+                                getContentPane().add(player);
+                                repaint();
+                                player.setIconStopped();
+                                players.add(player); //
+
+                            }
+                            String[] separado = msg.split(":");
+                            players.get(0).setBounds(Integer.parseInt(separado[0]), (Integer.parseInt(separado[1])), 90, 127);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+    }
 
     private void formKeyReleased(KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         // TODO add your handling code here:
@@ -119,14 +199,15 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened   //////
         // TODO add your handling code here:
-        player = new Player();
-        player.setup(); //configura o player.
-        players.add(player); //
+        try {
+            s = new Socket(host, porta);
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new PrintWriter(s.getOutputStream());
 
-        getContentPane().add(player);
-        repaint();
-        t = new Thread(this);
-        t.start();
+            receberMensagens();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -136,7 +217,7 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -172,8 +253,8 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
     public void run() {
         while (true) {
             try {
-                player.setIconStopped();
-                player.receberMensagens();
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

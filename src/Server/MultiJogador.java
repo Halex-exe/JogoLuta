@@ -22,12 +22,18 @@ public class MultiJogador {
 
     public void aguardarClientes() { //pegar o codigo do conectado. e instanciar na tela
         try {
+            System.out.println("Servidor Iniciado!");
             while (true) {
-                System.out.println("Servidor Iniciado!");
                 socketNovoJogador = ss.accept();
                 System.out.println("Cliente conectado: " + ss.toString());
-                Jogador novoCliente = new Jogador(socketNovoJogador);
-                jogador.add(novoCliente);
+                if (jogador.size() >= 1){
+                    Jogador novoCliente = new Jogador(socketNovoJogador, 700);
+                    jogador.add(novoCliente);
+
+                }else{
+                    Jogador novoCliente = new Jogador(socketNovoJogador);
+                    jogador.add(novoCliente);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
