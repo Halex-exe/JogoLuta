@@ -110,7 +110,7 @@ public class Jogador implements Runnable {
             Jogador jogador1 = MultiJogador.jogador.get(0);
             if (jogador1.soco == 1) {
                 dados = jogador1.x + ":" + jogador1.y + ":" + jogador1.vida + ":" + jogador1.soco;
-                soco = 0;
+                //jogador1.soco = 0;
             } else {
                 dados = jogador1.x + ":" + jogador1.y + ":" + jogador1.vida + ":" + jogador1.soco;
             }
@@ -119,7 +119,7 @@ public class Jogador implements Runnable {
             Jogador jogador2 = MultiJogador.jogador.get(1);
             if (jogador2.soco == 1) {
                 dados2 = jogador2.x + ":" + jogador2.y + ":" + jogador2.vida + ":" + jogador2.soco;
-                soco = 0;
+                //jogador2.soco = 0;
             } else {
                 dados2 = jogador2.x + ":" + jogador2.y + ":" + jogador2.vida + ":" + jogador2.soco;
             }
@@ -129,7 +129,7 @@ public class Jogador implements Runnable {
             Jogador jogador = MultiJogador.jogador.get(0);
             if (soco == 1) {
                 dados = jogador.x + ":" + jogador.y + ":" + jogador.vida + ":" + jogador.soco;
-                soco = 0;
+                jogador.soco = 0;
             } else {
                 dados = jogador.x + ":" + jogador.y + ":" + jogador.vida + ":" + jogador.soco;
             }
@@ -143,6 +143,10 @@ public class Jogador implements Runnable {
     public void atualizadClientes() {
         for (Jogador cliente : MultiJogador.jogador) {
             cliente.enviarMensagem();
+        }
+
+        for (Jogador cliente : MultiJogador.jogador) {
+            cliente.soco = 0;
         }
     }
 
