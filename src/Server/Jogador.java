@@ -63,7 +63,7 @@ public class Jogador implements Runnable {
         if (msg != null) {
 
             if (msg.equals("r")) {
-                if (x < 706) {
+                if (x < 705) {
                     x += speed;
                     msg = null;
                 }

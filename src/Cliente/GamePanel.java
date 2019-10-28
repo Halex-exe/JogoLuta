@@ -34,7 +34,6 @@ public class GamePanel extends javax.swing.JFrame implements Runnable {
 
     Boolean keyRight = false, keyLeft = false, keyUp = false, keyDown = false, keySpace = false;
     Thread t;
-    Integer speed = 7;
 
     /**
      * Creates new form GamePanel
