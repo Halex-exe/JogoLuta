@@ -1,7 +1,5 @@
 package Cliente;
 
-import Server.Jogador;
-
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,16 +8,16 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  * @author gabriel
  */
-public class GamePanel extends javax.swing.JFrame{
+public class GamePanel extends javax.swing.JFrame {
 
     Player player;
     static List<Player> players = new ArrayList<>();
@@ -50,6 +48,11 @@ public class GamePanel extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -57,15 +60,34 @@ public class GamePanel extends javax.swing.JFrame{
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(KeyEvent evt) {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
             }
-
-            public void keyReleased(KeyEvent evt) {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 formKeyReleased(evt);
             }
         });
         getContentPane().setLayout(null);
+
+        jLabel1.setText("Player A:");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(20, 580, 55, 40);
+        jLabel1.getAccessibleContext().setAccessibleName("labelA");
+
+        jLabel2.setText("100");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(70, 580, 30, 40);
+        jLabel2.getAccessibleContext().setAccessibleName("vidaA");
+
+        jLabel3.setText("Player B:");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(705, 580, 55, 40);
+        jLabel3.getAccessibleContext().setAccessibleName("labelB");
+
+        jLabel4.setText("100");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(755, 580, 30, 40);
+        jLabel4.getAccessibleContext().setAccessibleName("vidaB");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -98,7 +120,6 @@ public class GamePanel extends javax.swing.JFrame{
         }
 
     }//GEN-LAST:event_formKeyPressed
-
 
     public void enviarMensagem(String msg) { //mexer //talvez deixar como thread!
         out.println(msg);
@@ -144,7 +165,8 @@ public class GamePanel extends javax.swing.JFrame{
                                 players.get(0).setBounds(Integer.parseInt(jogadorA[0]), (Integer.parseInt(jogadorA[1])), 90, 127);
                                 players.get(0).x = Integer.parseInt(jogadorA[0]);
                                 players.get(0).y = Integer.parseInt(jogadorA[1]);
-
+                                jLabel2.setText((jogadorA[2]));
+                                players.get(0).vida = Integer.parseInt(jogadorA[2]);
 
                                 if (controleBx > Integer.parseInt(jogadorB[0])) {
                                     players.get(1).setIconLeft();
@@ -167,6 +189,8 @@ public class GamePanel extends javax.swing.JFrame{
                                 players.get(1).setBounds(Integer.parseInt(jogadorB[0]), (Integer.parseInt(jogadorB[1])), 90, 127);
                                 players.get(1).x = Integer.parseInt(jogadorB[0]);
                                 players.get(1).y = Integer.parseInt(jogadorB[1]);
+                                jLabel4.setText((jogadorB[2]));
+                                players.get(1).vida = Integer.parseInt(jogadorB[2]);
 
                             } else {
                                 if (GamePanel.players.size() == 1) {
@@ -190,18 +214,27 @@ public class GamePanel extends javax.swing.JFrame{
                                 }
                             }
                         } else {
-                            if (GamePanel.players.size() == 0) {
+                            if (msg.indexOf('!') >= 0) {
+                                if (msg.indexOf('A') >= 0){
+                                    jLabel2.setText("100");
+                                }else{
+                                    jLabel4.setText("100");
+                                }
+                                mostraGanhador(msg);
+                            } else {
+                                if (GamePanel.players.size() == 0) {
 
-                                player = new Player();
-                                player.setup(); //configura o player.
-                                getContentPane().add(player);
-                                repaint();
-                                player.setIconStopped();
-                                players.add(player); //
+                                    player = new Player();
+                                    player.setup(); //configura o player.
+                                    getContentPane().add(player);
+                                    repaint();
+                                    player.setIconStopped();
+                                    players.add(player); //
 
+                                }
+                                String[] separado = msg.split(":");
+                                players.get(0).setBounds(Integer.parseInt(separado[0]), (Integer.parseInt(separado[1])), 90, 127);
                             }
-                            String[] separado = msg.split(":");
-                            players.get(0).setBounds(Integer.parseInt(separado[0]), (Integer.parseInt(separado[1])), 90, 127);
                         }
                     }
                 } catch (Exception e) {
@@ -240,7 +273,20 @@ public class GamePanel extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_formKeyReleased
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened   //////
+    public void mostraGanhador(String msg){
+        javax.swing.JLabel vencedorLabel;
+        vencedorLabel = new javax.swing.JLabel();
+
+        vencedorLabel.setText(msg);
+        getContentPane().add(vencedorLabel);
+        vencedorLabel.setBounds(370, 325, 300, 40);
+
+        while (true){
+
+        }
+    }
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {
         // TODO add your handling code here:
         try {
             s = new Socket(host, porta);
@@ -251,7 +297,7 @@ public class GamePanel extends javax.swing.JFrame{
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_formWindowOpened
+    }
 
     /**
      * @param args the command line arguments
@@ -284,7 +330,7 @@ public class GamePanel extends javax.swing.JFrame{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 GamePanel g = new GamePanel();
-                g.setSize(800, 600);
+                g.setSize(800, 650);
                 g.setResizable(false);
                 g.setVisible(true);
 
@@ -292,5 +338,9 @@ public class GamePanel extends javax.swing.JFrame{
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

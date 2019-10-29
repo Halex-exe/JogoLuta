@@ -17,7 +17,7 @@ import java.net.Socket;
  * @author gabriel
  */
 public class Player extends JLabel {
-    public int x = 0, y = 0, vida = 100;
+    public int x = 0, y = 0, vida = 0;
     ImageIcon walkL;
     ImageIcon walkR;
     ImageIcon walkU;
